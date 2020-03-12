@@ -3,7 +3,7 @@ import openpyxl
 from openpyxl.styles import Alignment, Font
 
 # путь до счета
-wb = openpyxl.load_workbook('C:\\Users\\X\\Desktop\\WB scripts\\excel_file.xlsx')
+wb = openpyxl.load_workbook('D:\\Projects\\WB scripts\\excel_file.xlsx')
 # путь до справочника
 dir = pd.read_excel('directory.xlsx', sheet_name='directory', index_col="Название")
 # наименование листа с товарами в счете
@@ -40,4 +40,4 @@ for i in range(25, 25 + num, 1):
     sheet.cell(row=i, column=47).value = dir["ГТД"][sheet.cell(row=i, column=4).value]
 
 print(num)
-wb.save('C:\\Users\\X\\Desktop\\WB scripts\\excel_file.xlsx')
+wb.save('D:\\Projects\\WB scripts\\excel_file.xlsx')

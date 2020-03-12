@@ -6,7 +6,7 @@ import pandas as pd
 """
 
 # путь до счета
-wb = openpyxl.load_workbook('C:\\Users\\X\\Desktop\\WB scripts\\SupplierStock.xlsx')
+wb = openpyxl.load_workbook('D:\\Projects\\WB scripts\\SupplierStock.xlsx')
 # путь до справочника
 directory = pd.read_excel('directory.xlsx', sheet_name='directory', index_col="Штрихкод")
 
@@ -23,4 +23,4 @@ for i in range(3, 3 + num, 1):
     item = int(sheet.cell(row=i, column=5).value)
     sheet.cell(row=i, column=2).value = directory["Название"][item]
 
-wb.save('C:\\Users\\X\\Desktop\\WB scripts\\SupplierStock1.xlsx')
+wb.save('D:\\Projects\\WB scripts\\SupplierStock1.xlsx')
