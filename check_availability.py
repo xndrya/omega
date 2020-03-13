@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 directory = pd.read_excel('SupplierNomenclature.xls', sheet_name='SupplierNomenclature', index_col="Номенклатура",
                           usecols="C")
 
+count = 0
 # перебираем все значения номенклатуры из справочника
 for i in range(len(directory.index)):
     page = requests.get("http://www.wildberries.ru/catalog/" + str(directory.index[i]) + "/detail.aspx")
@@ -15,3 +16,6 @@ for i in range(len(directory.index)):
         soup = BeautifulSoup(page.text, 'html.parser')
         print((soup.title.text.strip())[:-43])
         print("http://www.wildberries.ru/catalog/" + str(directory.index[i]) + "/detail.aspx")
+        count += 1
+
+print("На сайте отсутствует " + str(count) + " из " + str(len(directory.index)) + " товаров")
