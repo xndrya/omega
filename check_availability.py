@@ -3,7 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # путь до справочника
-directory = pd.read_excel('SupplierNomenclature.xls', sheet_name='SupplierNomenclature', index_col="Номенклатура",
+directory = pd.read_excel('SupplierNomenclature.xlsx', sheet_name='SupplierNomenclature', index_col="Номенклатура",
                           usecols="C")
 
 count = 0
@@ -14,8 +14,9 @@ for i in range(len(directory.index)):
     # если есть признак отсутствия в наличии выводим наименование и ссылку на товар
     if "OutOfStock" in page.text:
         soup = BeautifulSoup(page.text, 'html.parser')
-        print((soup.title.text.strip())[:-43])
+        print("-------------------------------")
+        print(str(count + 1) + ". " + (soup.title.text.strip())[:-43])
         print("http://www.wildberries.ru/catalog/" + str(directory.index[i]) + "/detail.aspx")
         count += 1
-
+print("-------------------------------")
 print("На сайте отсутствует " + str(count) + " из " + str(len(directory.index)) + " товаров")
