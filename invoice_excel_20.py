@@ -3,11 +3,11 @@ import openpyxl
 from openpyxl.styles import Alignment, Font
 
 # путь до счета
-wb = openpyxl.load_workbook('D:\\Projects\\WB scripts\\excel_file.xlsx')
+wb = openpyxl.load_workbook('input/invoice.xlsx')
 # путь до справочника
-dir = pd.read_excel('directory.xlsx', sheet_name='directory', index_col="Название")
+dir = pd.read_excel('data/directory.xlsx', sheet_name='directory', index_col="Название")
 # наименование листа с товарами в счете
-sheet = wb["ex"]
+sheet = wb["TDSheet"]
 
 # форматируем ячейки
 sheet.merge_cells('AS23:AS24')
@@ -40,4 +40,4 @@ for i in range(25, 25 + num, 1):
     sheet.cell(row=i, column=47).value = dir["ГТД"][sheet.cell(row=i, column=4).value]
 
 print(num)
-wb.save('D:\\Projects\\WB scripts\\excel_file.xlsx')
+wb.save('output/invoice.xlsx')

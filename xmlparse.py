@@ -6,15 +6,15 @@ from lxml import etree
 
 print("Ждите...")
 # путь до счета
-invoice = openpyxl.load_workbook('D:\\Projects\\WB scripts\\invoice.xlsx', read_only=True)
+invoice = openpyxl.load_workbook('input/invoice.xlsx', read_only=True)
 sheet_invoice = invoice["TDSheet"]
 
 # путь до справочника
-dir = pd.read_excel('D:\\Projects\\WB scripts\\directory.xlsx', sheet_name='directory',
+dir = pd.read_excel('data/directory.xlsx', sheet_name='directory',
                     index_col="Название")
 
 # путь до файла xml
-doc = etree.parse('D:\\Projects\\WB scripts\\template_main2.xml')
+doc = etree.parse('data/template_main2.xml')
 
 # вычисляем кол-во позиций в счете с 25 по 150 ячейку
 for k in range(25, 150, 1):
@@ -134,5 +134,5 @@ doc.findall("//ТекстИнф")[2].attrib['Значен'] = date
 doc.findall("//ТекстИнф")[4].attrib['Значен'] = date
 doc.findall("//ТекстИнф")[5].attrib['Значен'] = date
 
-doc.write("output.xml", encoding="cp1251", pretty_print=True, xml_declaration=True)
+doc.write("output/output.xml", encoding="cp1251", pretty_print=True, xml_declaration=True)
 print("Готово!")
