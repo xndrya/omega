@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Скрипты</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ </head>
+<body>
+<hr>
+<h4 style="text-align: center;" class=""> Онлайн трейд </h4>
+<hr>
+<div>Для этого клиента необходимо в файлы с счетом добавлять данные о ГТД, штрихкоде, стране производства</div>
+<ol>
+	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
+	<li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск и ждём когда странится обновится<br>
+		<br>
+        <form action="/online_trade_invoice/" method="POST">
+		<input name="myFile" type="file"><input type="submit" value="Пуск">
+        </form>
+        <br>
+        <br>
+		</li>
+	<li>Готово. В этом же файле напротив каждой позиции добавлены нужные данные</li>
+</ol>
+<hr>
+<h4 style="text-align: center;" class=""> Вайлдберриз | Проверка товаров в наличии на сайте </h4>
+<hr>
+<div>Чтобы вывести отсутствующие на сайте позиции, надо нажать Пуск</div>
+		<br>
+        <form action="/check_availability/" method="POST">
+		<input type="submit" value="Пуск">
+        </form>
+        <br>
+<hr>
+<h4 style="text-align: center;" class=""> Вайлдберриз | Создать УПД в xml формате </h4>
+<hr>
+<div>Скрипт помогает создать xml файл с электронной версией УПД для отправки в Вайлдберриз на основе счета Эксель. Данные о товарах
+содержатся в справочнике directory.xlsx. В файле template_main.xml содержится болванка на основе которой будет создан новый файл.</div>
+<ol>
+	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
+	<li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск<br>
+		<br>
+        <form action="/wb_xml_from_invoice/" method="POST">
+		<input name="myFile" type="file"><input type="submit" value="Пуск">
+        </form>
+        <br>
+        <br>
+		</li>
+	<li>Ждём дальнейших инструкций</li>
+</ol>
+<hr>
+<h4 style="text-align: center;" class=""> Вайлдберриз | Заполнить файл дефицита, остатков наименованиями позиций </h4>
+<hr>
+<div>Скрипт нужен для записи наименований позиций в файл с остатками товаров в Вайлдберриз. В исходном содержатся артикулы, штрихкоды, а наименований нет. Это усложняет
+задачу анализа и планирования ассортимента.</div>
+<ol>
+	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
+	<li>Выбираем тип файла в который требуется добавить информацию переключателем</li>
+    <li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск</li>
+    <li>Ждём дальнейших инструкций</li>
+		<br>
+        <form action="/wb_stock/" method="POST">
+            <p><input name="choose_type" type="radio" value="stock"> Остатки </p>
+            <p><input name="choose_type" type="radio" value="deficit"> Дефицит </p>
+            <input name="myFile" type="file">
+            <input type="submit" value="Пуск">
+        </form>
+        <br>
+</ol>
+<hr>
+</body>
+</html>
