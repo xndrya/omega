@@ -5,7 +5,7 @@ import pandas as pd
 скрипт для записи наименований позиций в эксель-файл дефицита для вайлдберриз
 """
 
-# путь до счета
+# путь до файла
 wb = openpyxl.load_workbook('input/Дефицит.xlsx')
 # путь до справочника
 directory = pd.read_excel('data/directory.xlsx', sheet_name='directory', index_col="Штрихкод")
