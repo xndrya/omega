@@ -1,71 +1,213 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <title>Скрипты</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- </head>
+<html lang="ru">
+<head>
+    <title>Скрипты</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
 <body>
-<hr>
-<h4 style="text-align: center;" class=""> Онлайн трейд </h4>
-<hr>
-<div>Для этого клиента необходимо в файлы с счетом добавлять данные о ГТД, штрихкоде, стране производства</div>
-<ol>
-	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
-	<li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск и ждём когда странится обновится<br>
-		<br>
-        <form action="/online_trade_invoice/" method="POST">
-		<input name="myFile" type="file"><input type="submit" value="Пуск">
-        </form>
+<div class="jumbotron">
+    <div class="container">
+        <h2>Онлайн трейд</h2>
         <br>
-        <br>
-		</li>
-	<li>Готово. В этом же файле напротив каждой позиции добавлены нужные данные</li>
-</ol>
-<hr>
-<h4 style="text-align: center;" class=""> Вайлдберриз | Проверка товаров в наличии на сайте </h4>
-<hr>
-<div>Чтобы вывести отсутствующие на сайте позиции, надо нажать Пуск</div>
-		<br>
-        <form action="/check_availability/" method="POST">
-		<input type="submit" value="Пуск">
-        </form>
-        <br>
-<hr>
-<h4 style="text-align: center;" class=""> Вайлдберриз | Создать УПД в xml формате </h4>
-<hr>
-<div>Скрипт помогает создать xml файл с электронной версией УПД для отправки в Вайлдберриз на основе счета Эксель. Данные о товарах
-содержатся в справочнике directory.xlsx. В файле template_main.xml содержится болванка на основе которой будет создан новый файл.</div>
-<ol>
-	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
-	<li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск<br>
-		<br>
-        <form action="/wb_xml_from_invoice/" method="POST">
-		<input name="myFile" type="file"><input type="submit" value="Пуск">
-        </form>
-        <br>
-        <br>
-		</li>
-	<li>Ждём дальнейших инструкций</li>
-</ol>
-<hr>
-<h4 style="text-align: center;" class=""> Вайлдберриз | Заполнить файл дефицита, остатков наименованиями позиций </h4>
-<hr>
-<div>Скрипт нужен для записи наименований позиций в файл с остатками товаров в Вайлдберриз. В исходном содержатся артикулы, штрихкоды, а наименований нет. Это усложняет
-задачу анализа и планирования ассортимента.</div>
-<ol>
-	<li>Выгружаем из 1с файл xlsx с заказом покупателя</li>
-	<li>Выбираем тип файла в который требуется добавить информацию переключателем</li>
-    <li>Выбираем файл с помощью кнопки Файл и нажимаем Пуск</li>
-    <li>Ждём дальнейших инструкций</li>
-		<br>
-        <form action="/wb_stock/" method="POST">
-            <p><input name="choose_type" type="radio" value="stock"> Остатки </p>
-            <p><input name="choose_type" type="radio" value="deficit"> Дефицит </p>
-            <input name="myFile" type="file">
-            <input type="submit" value="Пуск">
-        </form>
-        <br>
-</ol>
-<hr>
+        <!-- Nav pills -->
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#ot-invoice">Счёт</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#ot-upd">УПД</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="ot-invoice" class="container tab-pane active"><br>
+                <p>Для этого клиента необходимо в файлы с счетом добавлять данные о ГТД, штрихкоде, стране
+                    производства</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Порядок действий</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1. Выгружаем из 1с файл xlsx с заказом покупателя</td>
+                    </tr>
+                    <tr>
+                        <td>2. Выбираем файл с помощью кнопки Файл и нажимаем Пуск и ждём когда странится
+                            обновится
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form action="/online_trade_invoice/" method="POST">
+                                <input name="myFile" type="file"><input type="submit" class="btn btn-success"
+                                                                        value="Пуск">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3. После выполнения скрипта, в этом же файле напротив каждой позиции добавлены нужные
+                            данные
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ot-upd" class="container tab-pane fade"><br>
+                <p>Скрипт помогает создать xml файл с электронной версией УПД для отправки в
+                    Онлайн-Трейд на основе счета Эксель. Данные о товарах содержатся в справочнике directory.xlsx. В
+                    файле template_main3.xml содержится болванка на основе которой будет создан новый файл.</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Порядок действий</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1. Выгружаем из 1с файл xlsx с заказом покупателя</td>
+                    </tr>
+                    <tr>
+                        <td>2. Выбираем файл с помощью кнопки Файл и нажимаем Пуск и ждём когда странится
+                            обновится
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form action="/wb_xml_from_invoice/" method="POST">
+                                <input name="myFile" type="file"><input type="submit" class="btn btn-success"
+                                                                        value="Пуск">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3. Ждём дальнейших инструкций</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="jumbotron">
+                <div class="container">
+                    <h2>Вайлдберриз</h2>
+                    <br>
+                    <!-- Nav pills -->
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="pill" href="#wb-goods">Отсутствующие на сайте
+                                позиции</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#wb-stock">Остатки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#wb-upd">УПД</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div id="wb-goods" class="container tab-pane active"><br>
+                            <p>Скрипт предназначен для того чтобы вывести позиции, которые отсутствуют на сайте в
+                                данный момент.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Нажмите Пуск и ожидайте вывода результатов.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/check_availability/" method="POST">
+                                            <input type="submit" class="btn btn-success" value="Пуск">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="wb-stock" class="container tab-pane fade"><br>
+                            <p>Скрипт нужен для записи наименований позиций в файл с остатками
+                                товаров в Вайлдберриз. В исходном содержатся артикулы, штрихкоды, а наименований нет.
+                                Это усложняет задачу анализа и планирования ассортимента.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Выгружаем из 1с файл xlsx с заказом покупателя</td>
+                                </tr>
+                                <tr>
+                                    <td>2. Выбираем тип файла в который требуется добавить информацию переключателем
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3. Выбираем файл с помощью кнопки Файл и нажимаем Пуск</td>
+                                </tr>
+                                <tr>
+                                    <td>4. Ждём дальнейших инструкций</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/online_trade_invoice/" method="POST">
+                                            <input name="myFile" type="file"><input type="submit"
+                                                                                    class="btn btn-success"
+                                                                                    value="Пуск">
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="wb-upd" class="container tab-pane fade"><br>
+                            <p>Скрипт помогает создать xml файл с электронной версией УПД для отправки в
+                                Онлайн-Трейд на основе счета Эксель. Данные о товарах содержатся в справочнике
+                                directory.xlsx. В
+                                файле template_main3.xml содержится болванка на основе которой будет создан новый
+                                файл.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Выгружаем из 1с файл xlsx с заказом покупателя</td>
+                                </tr>
+                                <tr>
+                                    <td>2. Выбираем файл с помощью кнопки Файл и нажимаем Пуск и ждём когда странится
+                                        обновится
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/wb_xml_from_invoice/" method="POST">
+                                            <input name="myFile" type="file"><input type="submit"
+                                                                                    class="btn btn-success"
+                                                                                    value="Пуск">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3. Ждём дальнейших инструкций</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
 </html>
