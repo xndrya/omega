@@ -7,22 +7,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+              function hello() {
+                  document.querySelector('#data').innerHTML = 'Goodbye!';
+              }
+
+    </script>
 </head>
 <body>
 <div class="jumbotron">
     <div class="container">
         <h2>Онлайн трейд</h2>
         <br>
-        <!-- Nav pills -->
-        <ul class="nav nav-pills" role="tablist">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#ot-invoice">Счёт</a>
+                <a class="nav-link active" data-toggle="tab" href="#ot-invoice">Счёт</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#ot-upd">УПД</a>
+                <a class="nav-link" data-toggle="tab" href="#ot-upd">УПД</a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="ot-invoice" class="container tab-pane active"><br>
@@ -45,9 +50,9 @@
                     </tr>
                     <tr>
                         <td>
-                            <form action="/online_trade_invoice/" method="POST">
-                                <input name="myFile" type="file"><input type="submit" class="btn btn-success"
-                                                                        value="Пуск">
+                            <form action="/upload/" method="POST">
+                                <input name="ot_invoice_file" type="file" enctype=multipart/form-data required>
+                                <input type="submit" class="btn btn-success" value="Пуск">
                             </form>
                         </td>
                     </tr>
@@ -80,9 +85,9 @@
                     </tr>
                     <tr>
                         <td>
-                            <form action="/wb_xml_from_invoice/" method="POST">
-                                <input name="myFile" type="file"><input type="submit" class="btn btn-success"
-                                                                        value="Пуск">
+                            <form action="/wb_xml_from_invoice/" method="POST" enctype="multipart/form-data">
+                                <input name="wb_xml_from_invoice" type="file" required>
+                                <input type="submit" class="btn btn-success" value="Пуск">
                             </form>
                         </td>
                     </tr>
@@ -96,17 +101,17 @@
                 <div class="container">
                     <h2>Вайлдберриз</h2>
                     <br>
-                    <!-- Nav pills -->
-                    <ul class="nav nav-pills" role="tablist">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#wb-goods">Отсутствующие на сайте
+                            <a class="nav-link active" data-toggle="tab" href="#wb-goods">Отсутствующие на сайте
                                 позиции</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#wb-stock">Остатки</a>
+                            <a class="nav-link" data-toggle="tab" href="#wb-stock">Остатки</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#wb-upd">УПД</a>
+                            <a class="nav-link" data-toggle="tab" href="#wb-upd">УПД</a>
                         </li>
                     </ul>
 
@@ -127,12 +132,21 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <form action="/check_availability/" method="POST">
-                                            <input type="submit" class="btn btn-success" value="Пуск">
+                                        <form action="/check_av/" method="GET">
+                                            <input name="wb-goods" type="submit" class="btn btn-success" value="Пуск">
+                                        </form>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <div class="alert alert-success" id="data" onclick="hello()">
+                                {% if data %}
+                                {% for key, value in data.items() %}
+                                <dt>{{ key|e }}</dt>
+                                <dd><a href={{ value|e }}>{{ value|e }}</a></dd>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
                         <div id="wb-stock" class="container tab-pane fade"><br>
                             <p>Скрипт нужен для записи наименований позиций в файл с остатками
@@ -160,10 +174,9 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <form action="/online_trade_invoice/" method="POST">
-                                            <input name="myFile" type="file"><input type="submit"
-                                                                                    class="btn btn-success"
-                                                                                    value="Пуск">
+                                        <form action="/wb_stock/" method="POST">
+                                            <input name="wb_stock" type="file" required>
+                                            <input type="submit" class="btn btn-success" value="Пуск">
                                         </form>
                                     </td>
                                 </tr>
@@ -172,7 +185,7 @@
                         </div>
                         <div id="wb-upd" class="container tab-pane fade"><br>
                             <p>Скрипт помогает создать xml файл с электронной версией УПД для отправки в
-                                Онлайн-Трейд на основе счета Эксель. Данные о товарах содержатся в справочнике
+                                Вайлдберриз на основе счета Эксель. Данные о товарах содержатся в справочнике
                                 directory.xlsx. В
                                 файле template_main3.xml содержится болванка на основе которой будет создан новый
                                 файл.</p>
@@ -194,9 +207,8 @@
                                 <tr>
                                     <td>
                                         <form action="/wb_xml_from_invoice/" method="POST">
-                                            <input name="myFile" type="file"><input type="submit"
-                                                                                    class="btn btn-success"
-                                                                                    value="Пуск">
+                                            <input name="wb-upd" type="file" required>
+                                            <input type="submit" class="btn btn-success" value="Пуск">
                                         </form>
                                     </td>
                                 </tr>
