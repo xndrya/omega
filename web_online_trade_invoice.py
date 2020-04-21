@@ -44,7 +44,5 @@ def make_ot_invoice(file_path):
     wb.save(file_path)
 
 
-
-
 if __name__ == "__main__":
     make_ot_invoice('input/invoice.xlsx')

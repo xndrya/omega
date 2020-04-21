@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file
 import check_availability
 import web_online_trade_invoice
 
@@ -35,8 +35,11 @@ def upload_file():
             file.save(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename))
             file.close()
             web_online_trade_invoice.make_ot_invoice(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('upload_file',
-                                    filename=filename))
+            return send_file(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename),
+                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                             as_attachment=True)
+            # return redirect("/")
+
     return '''
     <!doctype html>
     <title>Загрузка файла</title>

@@ -3,7 +3,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # путь до справочника
-directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature.xlsx', sheet_name='SupplierNomenclature', index_col="Номенклатура",
+directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature.xlsx', sheet_name='SupplierNomenclature',
+                          index_col="Номенклатура",
                           usecols="C")
 
 
