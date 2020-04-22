@@ -1,7 +1,8 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from flask import Flask, request, redirect, render_template, send_file
 import check_availability
 import web_online_trade_invoice
+import web_ot_upd
 
 UPLOAD_FOLDER = r'D:\Projects\WB scripts\web\files'
 ALLOWED_EXTENSIONS = {'xlsx'}
@@ -15,45 +16,24 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/upload/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            basedir = os.path.abspath(os.path.dirname(__file__))
-            # filename = secure_filename(file.filename)
-            filename = file.filename
-            file.save(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename))
-            file.close()
-            web_online_trade_invoice.make_ot_invoice(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename))
-            return send_file(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename),
-                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                             as_attachment=True)
-            # return redirect("/")
-
-    return '''
-    <!doctype html>
-    <title>Загрузка файла</title>
-    <h1>Загрузка файла</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file required>
-      <input type=submit value=Upload>
-    </form>
-    '''
-
-
 @app.route("/", methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+
+@app.route('/upload/', methods=['POST'])
+def upload_file(name):
+    file = request.files[name]
+    if file and allowed_file(file.filename):
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        filename = file.filename
+        file_path = os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file.close()
+    else:
+        file_path = None
+    redirect("/")
+    return file_path
 
 
 @app.route('/check_av/', methods=['GET', 'POST'])
@@ -64,9 +44,20 @@ def check_av():
 
 @app.route('/ot_invoice/', methods=['POST'])
 def ot_invoice():
-    file = upload_file()
-    # online_trade_invoice.make_ot_invoice(file)
-    return f"{file}"
+    file_path = upload_file('ot_invoice_file')
+    web_online_trade_invoice.make_ot_invoice(file_path)
+    return send_file(file_path,
+                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                     as_attachment=True)
+
+
+@app.route('/ot_upd/', methods=['POST'])
+def ot_upd():
+    file_path = upload_file('ot_upd_file')
+    web_ot_upd.make_ot_upd(file_path)
+    return send_file(file_path,
+                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                     as_attachment=True)
 
 
 @app.route('/wb_xml_from_invoice/', methods=['POST'])

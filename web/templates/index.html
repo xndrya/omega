@@ -49,8 +49,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <form action="/upload/" method="POST">
-                                <input name="ot_invoice_file" type="file" enctype=multipart/form-data required>
+                            <form action="/ot_invoice/" method="POST" enctype="multipart/form-data">
+                                <input name="ot_invoice_file" type="file"  required>
                                 <input type="submit" class="btn btn-success" value="Пуск">
                             </form>
                         </td>
@@ -84,8 +84,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <form action="/wb_xml_from_invoice/" method="POST" enctype="multipart/form-data">
-                                <input name="wb_xml_from_invoice" type="file" required>
+                            <form action="/ot_upd/" method="POST" enctype="multipart/form-data">
+                                <input name="ot_upd_file" type="file" required>
                                 <input type="submit" class="btn btn-success" value="Пуск">
                             </form>
                         </td>
