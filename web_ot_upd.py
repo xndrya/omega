@@ -5,7 +5,7 @@ import pandas as pd
 from lxml import etree
 
 
-def make_ot_upd(file_path):
+def make_ot_upd(file_path, type):
     # путь до счета
     invoice = openpyxl.load_workbook(file_path, read_only=True)
     sheet_invoice = invoice["TDSheet"]
@@ -15,7 +15,14 @@ def make_ot_upd(file_path):
                         index_col="Название")
 
     # путь до файла xml
-    doc = etree.parse('D:\\Projects\\WB scripts\\data\\template_main3.xml')
+    if type == "OT":
+        template_path = 'D:\\Projects\\WB scripts\\data\\template_main3.xml'
+    elif type == "WB":
+        template_path = 'D:\\Projects\\WB scripts\\data\\template_main2.xml'
+    else:
+        template_path = 'D:\\Projects\\WB scripts\\data\\template_main.xml'
+
+    doc = etree.parse(template_path)
     num = 0
     # вычисляем кол-во позиций в счете с 25 по 150 ячейку
     for k in range(25, 150, 1):

@@ -3,6 +3,7 @@ from flask import Flask, request, redirect, render_template, send_file
 import check_availability
 import web_online_trade_invoice
 import web_ot_upd
+import web_wb_deficit
 
 UPLOAD_FOLDER = r'D:\Projects\WB scripts\web\files'
 ALLOWED_EXTENSIONS = {'xlsx'}
@@ -54,7 +55,7 @@ def ot_invoice():
 @app.route('/ot_upd/', methods=['POST'])
 def ot_upd():
     file_path = upload_file('ot_upd_file')
-    web_ot_upd.make_ot_upd(file_path)
+    web_ot_upd.make_ot_upd(file_path, "OT")
     return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
                      mimetype="application/xml",
                      as_attachment=True)
@@ -62,12 +63,20 @@ def ot_upd():
 
 @app.route('/wb_xml_from_invoice/', methods=['POST'])
 def wb_xml_from_invoice():
-    return "wb_xml_from_invoice"
+    file_path = upload_file('wb_upd_file')
+    web_ot_upd.make_ot_upd(file_path, "WB")
+    return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
+                     mimetype="application/xml",
+                     as_attachment=True)
 
 
 @app.route('/wb_stock/', methods=['POST'])
 def wb_stock():
-    return "wb_stock"
+    file_path = upload_file('wb_stock')
+    web_wb_deficit.make_file(file_path, request.form['file_type'])
+    return send_file(file_path,
+                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                     as_attachment=True)
 
 
 if __name__ == '__main__':
