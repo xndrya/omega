@@ -15,8 +15,8 @@ def make_ot_upd(file_path):
                         index_col="Ќазвание")
 
     # путь до файла xml
-    doc = etree.parse('D:\Projects\WB scripts\data\template_main3.xml')
-
+    doc = etree.parse('D:\\Projects\\WB scripts\\data\\template_main3.xml')
+    num = 0
     # вычисл€ем кол-во позиций в счете с 25 по 150 €чейку
     for k in range(25, 150, 1):
         if sheet_invoice.cell(row=k, column=2).value != None:
@@ -27,7 +27,8 @@ def make_ot_upd(file_path):
     total_sum_without_nds = 0
     total_sum = 0
     total_quantity = 0
-    num = 0
+    table_root = doc.find("//“абл—ч‘акт")
+    i = 0
 
     for i in range(num):
         # количество
@@ -136,7 +137,9 @@ def make_ot_upd(file_path):
     doc.findall("//“екст»нф")[4].attrib['«начен'] = date
     doc.findall("//“екст»нф")[5].attrib['«начен'] = date
 
-    doc.write(file_path, encoding="cp1251", pretty_print=True, xml_declaration=True)
+    f = doc.write("D:\\Projects\\WB scripts\\output\\output.xml", encoding="cp1251", pretty_print=True,
+                  xml_declaration=True)
+    return f
 
 
 if __name__ == "__main__":

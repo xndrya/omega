@@ -55,8 +55,8 @@ def ot_invoice():
 def ot_upd():
     file_path = upload_file('ot_upd_file')
     web_ot_upd.make_ot_upd(file_path)
-    return send_file(file_path,
-                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
+                     mimetype="application/xml",
                      as_attachment=True)
 
 
