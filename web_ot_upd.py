@@ -5,7 +5,7 @@ import pandas as pd
 from lxml import etree
 
 
-def make_ot_upd(file_path, type):
+def make_ot_upd(file_path, type, invoice_num):
     # путь до счета
     invoice = openpyxl.load_workbook(file_path, read_only=True)
     sheet_invoice = invoice["TDSheet"]
@@ -17,10 +17,13 @@ def make_ot_upd(file_path, type):
     # путь до файла xml
     if type == "OT":
         template_path = 'D:\\Projects\\WB scripts\\data\\template_main3.xml'
+        doc_type = "—„‘ƒќѕ"
     elif type == "WB":
         template_path = 'D:\\Projects\\WB scripts\\data\\template_main2.xml'
+        doc_type = "ƒќѕ"
     else:
         template_path = 'D:\\Projects\\WB scripts\\data\\template_main.xml'
+        doc_type = "ƒќѕ"
 
     doc = etree.parse(template_path)
     num = 0
@@ -131,16 +134,21 @@ def make_ot_upd(file_path, type):
     total_quantity2.text = str(total_quantity)
     table_root.insert(i + 1, total)
 
-    # вычисл€ем текущую  дату, врем€ и проставл€ем в документ
+    # вычисл€ем текущую  дату, врем€
     date = datetime.datetime.today().strftime("%d.%m.%Y")
     time = datetime.datetime.today().strftime("%H.%M.%S")
-
+    # проставл€ем дату, врем€. номер и тип документа
+    doc.getroot().attrib['»д‘айл'] = invoice_num
     doc.find("//ƒокумент").attrib['ƒата»нфѕр'] = date
     doc.find("//ƒокумент").attrib['¬рем»нфѕр'] = time
+    doc.find("//ƒокумент").attrib['‘ункци€'] = doc_type
     doc.find("//—в—ч‘акт").attrib['ƒата—ч‘'] = date
+    doc.find("//—в—ч‘акт").attrib['Ќомер—ч‘'] = invoice_num
     doc.find("//—вѕер").attrib['ƒатаѕер'] = date
     doc.findall("//“екст»нф")[0].attrib['«начен'] = datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S")
+    doc.findall("//“екст»нф")[1].attrib['«начен'] = invoice_num
     doc.findall("//“екст»нф")[2].attrib['«начен'] = date
+    doc.findall("//“екст»нф")[3].attrib['«начен'] = invoice_num
     doc.findall("//“екст»нф")[4].attrib['«начен'] = date
     doc.findall("//“екст»нф")[5].attrib['«начен'] = date
 
@@ -150,4 +158,4 @@ def make_ot_upd(file_path, type):
 
 
 if __name__ == "__main__":
-    make_ot_upd('input/invoice.xlsx')
+    make_ot_upd('input/invoice.xlsx', 'WB', '—„‘ƒќѕ')

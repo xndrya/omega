@@ -55,7 +55,7 @@ def ot_invoice():
 @app.route('/ot_upd/', methods=['POST'])
 def ot_upd():
     file_path = upload_file('ot_upd_file')
-    web_ot_upd.make_ot_upd(file_path, "OT")
+    web_ot_upd.make_ot_upd(file_path, "OT", request.form['ot_invoice_num'])
     return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
                      mimetype="application/xml",
                      as_attachment=True)
@@ -64,7 +64,7 @@ def ot_upd():
 @app.route('/wb_xml_from_invoice/', methods=['POST'])
 def wb_xml_from_invoice():
     file_path = upload_file('wb_upd_file')
-    web_ot_upd.make_ot_upd(file_path, "WB")
+    web_ot_upd.make_ot_upd(file_path, "WB", request.form['wb_invoice_num'])
     return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
                      mimetype="application/xml",
                      as_attachment=True)

@@ -13,6 +13,8 @@
               }
 
 
+
+
     </script>
 </head>
 <body>
@@ -101,6 +103,8 @@
                         <td>
                             <form action="/ot_upd/" method="POST" enctype="multipart/form-data">
                                 <input name="ot_upd_file" type="file" required>
+                                <input type="text" class="form-control-sm" placeholder="УПД-100" name="ot_invoice_num"
+                                       required>
                                 <input type="submit" class="btn btn-success" value="Пуск">
                             </form>
                         </td>
@@ -235,6 +239,8 @@
                                         <form action="/wb_xml_from_invoice/" enctype="multipart/form-data"
                                               method="POST">
                                             <input name="wb_upd_file" type="file" required>
+                                            <input type="text" class="form-control-sm" placeholder="УПД-100"
+                                                   name="wb_invoice_num" required>
                                             <input type="submit" class="btn btn-success" value="Пуск">
                                         </form>
                                     </td>
