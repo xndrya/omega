@@ -45,4 +45,4 @@ def make_ot_invoice(file_path):
 
 
 if __name__ == "__main__":
-    make_ot_invoice('input/invoice.xlsx')
+    make_ot_invoice('C:\\Users\\X\\Desktop\\Сломан.xlsx')

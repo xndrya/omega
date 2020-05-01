@@ -8,7 +8,7 @@ directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature.xlsx
                           usecols="C")
 
 
-def check_availability():
+def check():
     out_of_stock = {}
     # перебираем все значения номенклатуры из справочника
     for i in range(len(directory.index)):
@@ -22,7 +22,7 @@ def check_availability():
 
 
 if __name__ == "__main__":
-    list_out_of_stock = check_availability()
+    list_out_of_stock = check()
     count = 0
     for name, link in list_out_of_stock.items():
         print("---------------------------------------------------------------------------")

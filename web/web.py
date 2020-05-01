@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, redirect, render_template, send_file
-import check_availability
+import web_check_availability
 import web_online_trade_invoice
 import web_ot_upd
 import web_wb_deficit
@@ -39,17 +39,21 @@ def upload_file(name):
 
 @app.route('/check_av/', methods=['GET', 'POST'])
 def check_av():
-    out_of_stock = check_availability.check_availability()
-    return render_template('index.html', data=out_of_stock)
+    out_of_stock = web_check_availability.check()
+    return render_template('index.html', data=out_of_stock, count=len(out_of_stock))
 
 
 @app.route('/ot_invoice/', methods=['POST'])
 def ot_invoice():
-    file_path = upload_file('ot_invoice_file')
-    web_online_trade_invoice.make_ot_invoice(file_path)
-    return send_file(file_path,
-                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                     as_attachment=True)
+    try:
+        file_path = upload_file('ot_invoice_file')
+        web_online_trade_invoice.make_ot_invoice(file_path)
+        return send_file(file_path,
+                         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                         as_attachment=True)
+    except KeyError:
+        return "Возникла ошибка при обработке файла. Вероятные причины - не xlsx файл, в счете присутствуют наименования," \
+               " отсутствующие в справочнике, файл отличается от формата в котором выгружается счет на оплату из 1С"
 
 
 @app.route('/ot_upd/', methods=['POST'])
@@ -61,8 +65,8 @@ def ot_upd():
                      as_attachment=True)
 
 
-@app.route('/wb_xml_from_invoice/', methods=['POST'])
-def wb_xml_from_invoice():
+@app.route('/wb_upd/', methods=['POST'])
+def wb_upd():
     file_path = upload_file('wb_upd_file')
     web_ot_upd.make_ot_upd(file_path, "WB", request.form['wb_invoice_num'])
     return send_file("D:\\Projects\\WB scripts\\output\\output.xml",

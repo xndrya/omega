@@ -113,14 +113,12 @@ def make_ot_upd(file_path, type, invoice_num):
         info7.set("Идентиф", "ИД")
 
         table_root = doc.find("//ТаблСчФакт")
-
+        # вставляем элемент
+        table_root.insert(i, good)
         # считаем итоговые суммы с ндс и без и количество
         total_sum_without_nds += sum_price_without_nds
         total_sum += total_sum_per_good
         total_quantity += quantity
-
-        # вставляем элемент
-        table_root.insert(i, good)
 
     # проставляем итоговые суммы с ндс и без и количество
     total = etree.Element("ВсегоОпл")
@@ -152,7 +150,7 @@ def make_ot_upd(file_path, type, invoice_num):
     doc.findall("//ТекстИнф")[4].attrib['Значен'] = date
     doc.findall("//ТекстИнф")[5].attrib['Значен'] = date
 
-    f = doc.write("D:\\Projects\\WB scripts\\output\\output.xml", encoding="cp1251", pretty_print=True,
+    f = doc.write("D:\\Projects\\WB scripts\\output\\output.xml", encoding="WINDOWS-1251", pretty_print=True,
                   xml_declaration=True)
     return f
 
