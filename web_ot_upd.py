@@ -47,6 +47,8 @@ def make_ot_upd(file_path, type, invoice_num):
         # ниже получаем размер ндс, сумму по позиции и вычисляем цену без ндс для нее
         price = sheet_invoice.cell(row=i + 25, column=25).value
         nds = sheet_invoice.cell(row=i + 25, column=29).value
+        if nds == "Без НДС":
+            nds = 0
         price_without_nds = round(price / (1 + nds * 0.01), 2)
         total_sum_per_good = sheet_invoice.cell(row=i + 25, column=37).value
 

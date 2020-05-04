@@ -5,7 +5,7 @@ import web_online_trade_invoice
 import web_ot_upd
 import web_wb_deficit
 
-UPLOAD_FOLDER = r'D:\Projects\WB scripts\web\files'
+UPLOAD_FOLDER = r'D:\Projects\WB scripts\files'
 ALLOWED_EXTENSIONS = {'xlsx'}
 
 app = Flask(__name__)
@@ -41,6 +41,7 @@ def upload_file(name):
 def check_av():
     out_of_stock = web_check_availability.check()
     return render_template('index.html', data=out_of_stock, count=len(out_of_stock))
+
 
 
 @app.route('/ot_invoice/', methods=['POST'])
