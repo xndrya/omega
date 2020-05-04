@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Скрипты</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+              function hello() {
+                  document.querySelector('#data').innerHTML = 'Goodbye!';
+              }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 id="ot">Онлайн трейд</h2>
+        <br>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#ot-invoice">Счёт</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#ot-upd">УПД</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="ot-invoice" class="container tab-pane active"><br>
+                <p>В файл с счетом, напротив каждой позиции нужно добавить данные о ГТД, штрихкоде, стране
+                    производства.</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Порядок действий</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1. Выгрузить из 1с файл xlsx с заказом покупателя</td>
+                    </tr>
+                    <tr>
+                        <td>2. Выбрать файл с помощью кнопки Файл и нажать Пуск.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form action="/ot_invoice/" method="POST" enctype="multipart/form-data">
+                                <input name="ot_invoice_file" type="file" required>
+                                <input type="submit" class="btn btn-success" value="Пуск">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3. После выполнения скрипта, автоматически скачается файл счета</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ot-upd" class="container tab-pane fade"><br>
+                <p>Скрипт помогает создать xml файл с электронной версией УПД для отправки в
+                    Онлайн-Трейд на основе счета Эксель. Данные о товарах содержатся в справочнике directory.xlsx. В
+                    файле template_main3.xml содержится болванка на основе которой будет создан новый файл.</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Порядок действий</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1. Выгрузить из 1с файл xlsx с заказом покупателя</td>
+                    </tr>
+                    <tr>
+                        <td>2. Выбрать файл с помощью кнопки Файл и нажать Пуск</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form action="/ot_upd/" method="POST" enctype="multipart/form-data">
+                                <input name="ot_upd_file" type="file" required>
+                                <input type="text" class="form-control-sm" placeholder="УПД-100" name="ot_invoice_num"
+                                       required>
+                                <input type="submit" class="btn btn-success" value="Пуск">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3. После выполнения скрипта, автоматически скачается необходимый файл с названием
+                            output.xml
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <div class="container">
+                    <h2 id="wb">Вайлдберриз</h2>
+                    <br>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#wb-goods">Отсутствующие на сайте
+                                позиции</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#wb-stock">Остатки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#wb-upd">УПД</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div id="wb-goods" class="container tab-pane active"><br>
+                            <p>Скрипт предназначен для того чтобы вывести позиции, которые отсутствуют на сайте в
+                                данный момент.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Нажать Пуск.</td>
+                                </tr>
+                                <tr>
+                                    <td>2. После выполнения скрипта страница перезагрузится. Внизу будут выведены
+                                        отсутствующие позиции и их количество
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/check_av/" method="GET">
+                                            <input name="wb-goods" type="submit" class="btn btn-success" value="Пуск">
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            {% if data %}
+                            <div class="alert alert-success" id="data" onclick="hello()">
+                                <abbr title="количество отсутствующих товаров"><span
+                                        class="badge badge-primary badge-pill">{{ count }}</span></abbr>
+                                {% for key, value in data.items() %}
+                                <dt>{{ key|e }}</dt>
+                                <dd><a href={{ value|e }}>{{ value|e }}</a></dd>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                        </div>
+                        <div id="wb-stock" class="container tab-pane fade"><br>
+                            <p>Скрипт нужен для записи наименований позиций в файл с остатками
+                                товаров, дефицитом и ценовой спецификации в Вайлдберриз. В исходном файле содержатся
+                                артикулы, штрихкоды без наименований.
+                                Это усложняет задачу анализа и планирования ассортимента.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Выбрать файл с помощью кнопки Файл</td>
+                                </tr>
+                                <tr>
+                                    <td>2. Выбрать тип файла, в который требуется добавить информацию с помощью
+                                        переключателя
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3. Нажать Пуск</td>
+                                </tr>
+                                <tr>
+                                    <td>4. После выполнения скрипта автоматически скачается обработанный файл</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/wb_stock/" method="POST" enctype="multipart/form-data">
+                                            <input name="wb_stock" type="file" required>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="file_type"
+                                                       id="inlineRadio1" value="Дефицит">
+                                                <label class="form-check-label" for="inlineRadio1">Дефицит</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="file_type"
+                                                       id="inlineRadio2" value="Остатки">
+                                                <label class="form-check-label" for="inlineRadio2">Остатки</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="file_type"
+                                                       id="inlineRadio3" value="Цены">
+                                                <label class="form-check-label" for="inlineRadio3">Цены</label>
+                                            </div>
+                                            <input type="submit" class="btn btn-success" value="Пуск">
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="wb-upd" class="container tab-pane fade"><br>
+                            <p>Скрипт помогает создать xml файл с электронной версией УПД для отправки в
+                                Вайлдберриз на основе счета Эксель. Данные о товарах содержатся в справочнике
+                                directory.xlsx. В
+                                файле template_main2.xml содержится болванка на основе которой будет создан новый
+                                файл.</p>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Порядок действий</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1. Выгрузить из 1С файл xlsx с заказом покупателя</td>
+                                </tr>
+                                <tr>
+                                    <td>2. Выбрать файл с помощью кнопки Файл и нажать Пуск</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/wb_upd/" enctype="multipart/form-data"
+                                              method="POST">
+                                            <input name="wb_upd_file" type="file" required>
+                                            <input type="text" class="form-control-sm" placeholder="УПД-100"
+                                                   name="wb_invoice_num" required>
+                                            <input type="submit" class="btn btn-success" value="Пуск">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3. После выполнения скрипта, автоматически скачается необходимый файл с
+                                        названием
+                                        output.xml
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>
