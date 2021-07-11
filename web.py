@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, render_template, send_file
+from flask import Flask, request, redirect, render_template, send_file, json
 import web_check_availability
 import web_online_trade_invoice
 import web_ot_upd
@@ -43,7 +43,6 @@ def check_av():
     return render_template('index.html', data=out_of_stock, count=len(out_of_stock))
 
 
-
 @app.route('/ot_invoice/', methods=['POST'])
 def ot_invoice():
     try:
@@ -52,9 +51,9 @@ def ot_invoice():
         return send_file(file_path,
                          mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                          as_attachment=True)
-    except KeyError:
-        return "Возникла ошибка при обработке файла. Вероятные причины - не xlsx файл, в счете присутствуют наименования," \
-               " отсутствующие в справочнике, файл отличается от формата в котором выгружается счет на оплату из 1С"
+    except KeyError as e:
+        err = f"Возникла ошибка при обработке файла. Следующие артикулы не были найдены в справочнике: {e.args}"
+        return render_template('index.html', err=err)
 
 
 @app.route('/ot_upd/', methods=['POST'])
@@ -82,6 +81,12 @@ def wb_stock():
     return send_file(file_path,
                      mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                      as_attachment=True)
+
+
+@app.route('/get_len/', methods=['GET', 'POST'])
+def get_len():
+    name = request.form['name']
+    return json.dumps({'len': name})
 
 
 if __name__ == '__main__':

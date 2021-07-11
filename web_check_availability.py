@@ -17,7 +17,7 @@ def check():
         if "OutOfStock" in page.text:
             soup = BeautifulSoup(page.text, 'html.parser')
             out_of_stock[
-                f"{(soup.title.text.strip())[:-43]}"] = f"http://www.wildberries.ru/catalog/{str(directory.index[i])}/detail.aspx"
+                f"{(soup.title.text.strip())[:-47]}"] = f"http://www.wildberries.ru/catalog/{str(directory.index[i])}/detail.aspx"
     return out_of_stock
 
 
