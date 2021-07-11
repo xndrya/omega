@@ -3,9 +3,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # путь до справочника
-directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature.xlsx', sheet_name='SupplierNomenclature',
+directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature2.xlsx', sheet_name='SupplierNomenclature',
                           index_col="Номенклатура",
-                          usecols="C")
+                          usecols="B")
 
 
 def check():
