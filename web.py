@@ -60,7 +60,7 @@ def ot_invoice():
 def ot_upd():
     file_path = upload_file('ot_upd_file')
     web_ot_upd.make_ot_upd(file_path, "OT", request.form['ot_invoice_num'])
-    return send_file("D:\\Projects\\WB scripts\\output\\output.xml",
+    return send_file(f"D:\\Projects\\WB scripts\\output\\{request.form['ot_invoice_num']}.xml",
                      mimetype="application/xml",
                      as_attachment=True)
 

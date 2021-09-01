@@ -152,7 +152,7 @@ def make_ot_upd(file_path, type, invoice_num):
     doc.findall("//ТекстИнф")[4].attrib['Значен'] = date
     doc.findall("//ТекстИнф")[5].attrib['Значен'] = date
 
-    f = doc.write("D:\\Projects\\WB scripts\\output\\output.xml", encoding="WINDOWS-1251", pretty_print=True,
+    f = doc.write(f"D:\\Projects\\WB scripts\\output\\{invoice_num}.xml", encoding="WINDOWS-1251", pretty_print=True,
                   xml_declaration=True)
     return f
 
