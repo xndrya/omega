@@ -3,9 +3,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # путь до справочника
-directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature.xlsx', sheet_name='SupplierNomenclature',
+directory = pd.read_excel('D:\Projects\WB scripts\data\SupplierNomenclature2.xlsx', sheet_name='SupplierNomenclature',
                           index_col="Номенклатура",
-                          usecols="C")
+                          usecols="B")
 
 
 def check():
@@ -17,7 +17,7 @@ def check():
         if "OutOfStock" in page.text:
             soup = BeautifulSoup(page.text, 'html.parser')
             out_of_stock[
-                f"{(soup.title.text.strip())[:-43]}"] = f"http://www.wildberries.ru/catalog/{str(directory.index[i])}/detail.aspx"
+                f"{(soup.title.text.strip())[:-47]}"] = f"http://www.wildberries.ru/catalog/{str(directory.index[i])}/detail.aspx"
     return out_of_stock
 
 
